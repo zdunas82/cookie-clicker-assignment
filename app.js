@@ -2,7 +2,12 @@ const cookieImg = document.getElementById("cookie-image");
 const cookieDisplay = document.getElementById("cookie-display");
 const cpsDisplay = document.getElementById("cps-display");
 const upgradesContainer = document.getElementById("upgrades-container");
-const clickSound = new Audio('./sounds/crunch.mp3');
+const resetBtn = document.getElementById("reset-btn");
+const customAlert = document.getElementById("alert");
+const closeAlertBtn = document.getElementById("close-alert");
+const textAlert = document.getElementById("alert-text")
+
+const clickSound = new Audio('./sound/crunch.mp3');
 
 //Game State
 let cookies = parseInt(localStorage.getItem("cookies")) || 0;
@@ -14,7 +19,7 @@ cpsDisplay.textContent = cps;
 
 //Game logic
 
-//every sec increase cookies by CPS
+//every 1sec increase cookies by CPS
 setInterval(function () {
   cookies = cookies + cps;
   cookieDisplay.textContent = cookies;
@@ -28,19 +33,14 @@ cookieImg.addEventListener("click", function() {
   cookieDisplay.textContent = cookies;
   localStorage.setItem("cookies", cookies);
 
-  clickSound.play(); //play 
+  clickSound.play();
 });
-
 
 //fetching upgrades from API
 async function fetchUpgrades() {
-  try {
     const response = await fetch('https://cookie-upgrade-api.vercel.app/api/upgrades');
     const upgrades = await response.json();
     displayUpgrades(upgrades);
-  } catch (error) {
-    console.error("Error fetching upgrades", error);
-  }
 }
 
 //show upgrades function
@@ -56,6 +56,22 @@ function displayUpgrades(upgrades) {
   });
 }
 
+//alert function
+function showAlert(massage, isSuccess) {
+  textAlert.textContent = massage;
+if (isSuccess) {
+  customAlert.style.backgroundColor = "green";
+} else {
+  customAlert.style.backgroundColor = "red";
+}
+
+  customAlert.classList.remove("hidden");
+}
+
+closeAlertBtn.addEventListener("click", function(){
+  customAlert.classList.add("hidden");
+})
+
 //buying upgrades function
 function purchaseUpgrade(upgrade) {
   if (cookies >= upgrade.cost) {
@@ -64,8 +80,9 @@ function purchaseUpgrade(upgrade) {
     updateDisplay();
     localStorage.setItem("cps", cps);
     localStorage.setItem("cookies", cookies);
+    showAlert("You bought the " + upgrade.name + " upgrade!", true);
   } else {
-    alert("Not Enough Cookies!");
+    showAlert("You don't have enough cookies!", false);
   }
 }
 
@@ -77,3 +94,16 @@ function updateDisplay() {
 
 // Call the fetchUpgrades function on page load
 fetchUpgrades();
+
+//Resets all game stats to 0
+resetBtn.addEventListener("click", function() {
+  console.log("Reset button Clicked!");
+  cookies = 0;
+  cps = 0;
+
+  cookieDisplay.textContent = cookies;
+  cpsDisplay.textContent = cps;
+
+  localStorage.removeItem("cookies");
+  localStorage.removeItem("cps");
+})
