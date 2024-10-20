@@ -137,32 +137,38 @@ p {
   display: none;
 }
 
-
- @media (max-width: 768px) {
-  #cookie {
-      width: 150px;
-      height: 150px;
+@media (max-width: 768px) {
+  #cookie-image {
+    width: 200px;
   }
-  #score {
-      font-size: 1.5em;
+  p {
+    font-size: 24px;
   }
-  #upgrade {
-      font-size: 0.9em;
-      padding: 8px;
+  #upgrades-container button {
+    font-size: 14px;
+    padding: 10px;
+  }
+  #reset-btn {
+    width: 130px;
+    padding: 10px;
+    font-size: 18px;
   }
 }
 
-/*for smaller screens*/
 @media (max-width: 480px) {
-  #cookie {
-      width: 100px;
-      height: 100px;
+  #cookie-image {
+    width: 150px;
   }
-  #score {
-      font-size: 1.2em;
+  p {
+    font-size: 20px;
   }
-  #upgrade {
-      font-size: 0.8em;
-      padding: 6px;
+  #upgrades-container button {
+    font-size: 12px;
+    padding: 8px;
+  }
+  #reset-btn {
+    width: 120px;
+    padding: 8px;
+    font-size: 16px;
   }
 }
