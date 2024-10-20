@@ -9,7 +9,7 @@ const textAlert = document.getElementById("alert-text")
 
 const clickSound = new Audio('./sound/crunch.mp3');
 
-//Game State
+//Game stats
 let cookies = parseInt(localStorage.getItem("cookies")) || 0;
 let cps = parseInt(localStorage.getItem("cps")) || 0;
 
@@ -18,7 +18,6 @@ cookieDisplay.textContent = cookies;
 cpsDisplay.textContent = cps;
 
 //Game logic
-
 //every 1sec increase cookies by CPS
 setInterval(function () {
   cookies = cookies + cps;
@@ -57,14 +56,13 @@ function displayUpgrades(upgrades) {
 }
 
 //alert function
-function showAlert(massage, isSuccess) {
-  textAlert.textContent = massage;
+function showAlert(message, isSuccess) {
+  textAlert.textContent = message;
 if (isSuccess) {
   customAlert.style.backgroundColor = "green";
 } else {
   customAlert.style.backgroundColor = "red";
 }
-
   customAlert.classList.remove("hidden");
 }
 
